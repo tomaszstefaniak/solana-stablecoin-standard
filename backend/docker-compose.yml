@@ -1,0 +1,91 @@
+version: "3.9"
+
+# ─────────────────────────────────────────
+# SSS Backend Services
+# ─────────────────────────────────────────
+#
+# Usage:
+#   docker-compose up
+#
+# Required environment variables (create .env file):
+#   SSS_CLUSTER=https://api.devnet.solana.com
+#   SSS_WALLET=/run/secrets/wallet
+#   SSS_MINT=<mint_pubkey>
+#
+# ─────────────────────────────────────────
+
+x-common-env: &common-env
+  SSS_CLUSTER: ${SSS_CLUSTER:-https://api.devnet.solana.com}
+  SSS_MINT: ${SSS_MINT}
+  NODE_ENV: production
+
+x-common: &common
+  build:
+    context: .
+    dockerfile: Dockerfile
+  restart: unless-stopped
+  volumes:
+    - ${SSS_WALLET:-~/.config/solana/id.json}:/app/wallet.json:ro
+  environment:
+    SSS_WALLET: /app/wallet.json
+
+services:
+  # ── Mint/Burn Service ─────────────────────────────────────────────
+  mint-service:
+    <<: *common
+    command: ["node", "dist/mint-service.js"]
+    ports:
+      - "3001:3001"
+    environment:
+      <<: *common-env
+      SSS_WALLET: /app/wallet.json
+      PORT: "3001"
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # ── Event Indexer ────────────────────────────────────────────────
+  indexer:
+    <<: *common
+    command: ["node", "dist/indexer.js"]
+    ports:
+      - "3002:3002"
+    environment:
+      <<: *common-env
+      SSS_WALLET: /app/wallet.json
+      PORT: "3002"
+      EVENT_LOG_PATH: /app/data/events.json
+    volumes:
+      - ${SSS_WALLET:-~/.config/solana/id.json}:/app/wallet.json:ro
+      - indexer-data:/app/data
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3002/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # ── Compliance Service (SSS-2) ──────────────────────────────────
+  compliance:
+    <<: *common
+    command: ["node", "dist/compliance-service.js"]
+    ports:
+      - "3003:3003"
+    environment:
+      <<: *common-env
+      SSS_WALLET: /app/wallet.json
+      PORT: "3003"
+      AUDIT_LOG_PATH: /app/data/compliance-audit.json
+    volumes:
+      - ${SSS_WALLET:-~/.config/solana/id.json}:/app/wallet.json:ro
+      - compliance-data:/app/data
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3003/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  indexer-data:
+  compliance-data:
