@@ -3,7 +3,11 @@
   "version": "0.1.0",
   "description": "Solana Stablecoin Standard (SSS-1 + SSS-2) — Anchor programs, TypeScript SDK, CLI, and backend services",
   "private": true,
-  "workspaces": ["sdk", "cli", "backend"],
+  "workspaces": [
+    "sdk",
+    "cli",
+    "backend"
+  ],
   "scripts": {
     "build": "npm run build --workspaces",
     "test": "npm run test --workspaces",
@@ -12,7 +16,8 @@
   },
   "devDependencies": {
     "@types/bn.js": "^5.1.5",
-    "@types/mocha": "^10.0.6",
+    "@types/chai": "^5.2.3",
+    "@types/mocha": "^10.0.10",
     "@types/node": "^20.0.0",
     "chai": "^4.4.1",
     "mocha": "^10.4.0",
