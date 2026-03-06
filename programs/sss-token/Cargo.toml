@@ -20,6 +20,3 @@ anchor-lang = { workspace = true }
 anchor-spl = { workspace = true }
 spl-token-2022 = { workspace = true }
 spl-token-metadata-interface = { workspace = true }
-# Pin zk-token-sdk to 1.x to prevent spl-pod 0.2.3 from pulling in
-# solana-program 2.0.25, which causes type conflicts with spl-type-length-value.
-solana-zk-token-sdk = "=1.18.26"

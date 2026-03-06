@@ -11,6 +11,10 @@ anchor-spl = { version = "0.30.1", features = ["token_2022", "token_2022_extensi
 spl-token-2022 = { version = "3", features = ["no-entrypoint"] }
 spl-token-metadata-interface = { version = "0.3.3" }
 
+[patch.crates-io]
+constant_time_eq = { path = "vendor/constant_time_eq" }
+blake3 = { path = "vendor/blake3" }
+
 [profile.release]
 overflow-checks = true
 lto = "thin"

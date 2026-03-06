@@ -1,0 +1,314 @@
+{
+  "address": "Gx4YCpm4DhBwDaqZya9QY2ydTP6hVa3ffPSdViPJ45x8",
+  "metadata": {
+    "name": "sss_token",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "Solana Stablecoin Standard — SSS-1 Minimal and SSS-2 Compliant presets"
+  },
+  "instructions": [
+    {
+      "name": "initialize",
+      "discriminator": [175, 175, 109, 31, 13, 152, 155, 237],
+      "accounts": [
+        { "name": "payer", "writable": true, "signer": true },
+        { "name": "masterAuthority", "signer": true },
+        { "name": "mint", "writable": true, "signer": true },
+        { "name": "globalState", "writable": true, "pda": { "seeds": [{ "kind": "const", "value": [115, 115, 115] }, { "kind": "account", "path": "mint" }] } },
+        { "name": "roleRegistry", "writable": true, "pda": { "seeds": [{ "kind": "const", "value": [114, 111, 108, 101, 115] }, { "kind": "account", "path": "mint" }] } },
+        { "name": "tokenProgram" },
+        { "name": "systemProgram" },
+        { "name": "rent" }
+      ],
+      "args": [{ "name": "params", "type": { "defined": { "name": "InitializeParams" } } }]
+    },
+    {
+      "name": "mintTokens",
+      "discriminator": [51, 57, 225, 47, 182, 146, 137, 166],
+      "accounts": [
+        { "name": "minter", "signer": true },
+        { "name": "globalState", "pda": { "seeds": [{ "kind": "const", "value": [115, 115, 115] }, { "kind": "account", "path": "mint" }] } },
+        { "name": "roleRegistry", "pda": { "seeds": [{ "kind": "const", "value": [114, 111, 108, 101, 115] }, { "kind": "account", "path": "mint" }] } },
+        { "name": "minterState", "writable": true, "pda": { "seeds": [{ "kind": "const", "value": [109, 105, 110, 116, 101, 114] }, { "kind": "account", "path": "mint" }, { "kind": "account", "path": "minter" }] } },
+        { "name": "mint", "writable": true },
+        { "name": "recipientTokenAccount", "writable": true },
+        { "name": "tokenProgram" }
+      ],
+      "args": [{ "name": "amount", "type": "u64" }]
+    },
+    {
+      "name": "burnTokens",
+      "discriminator": [116, 110, 29, 56, 107, 219, 42, 93],
+      "accounts": [
+        { "name": "burner", "signer": true },
+        { "name": "globalState", "pda": { "seeds": [{ "kind": "const", "value": [115, 115, 115] }, { "kind": "account", "path": "mint" }] } },
+        { "name": "roleRegistry", "pda": { "seeds": [{ "kind": "const", "value": [114, 111, 108, 101, 115] }, { "kind": "account", "path": "mint" }] } },
+        { "name": "burnerTokenAccount", "writable": true },
+        { "name": "mint", "writable": true },
+        { "name": "tokenProgram" }
+      ],
+      "args": [{ "name": "amount", "type": "u64" }]
+    },
+    {
+      "name": "freezeAccount",
+      "discriminator": [148, 163, 169, 0, 52, 5, 201, 96],
+      "accounts": [
+        { "name": "authority", "signer": true },
+        { "name": "globalState", "pda": { "seeds": [{ "kind": "const", "value": [115, 115, 115] }, { "kind": "account", "path": "mint" }] } },
+        { "name": "roleRegistry", "pda": { "seeds": [{ "kind": "const", "value": [114, 111, 108, 101, 115] }, { "kind": "account", "path": "mint" }] } },
+        { "name": "mint" },
+        { "name": "tokenAccount", "writable": true },
+        { "name": "tokenProgram" }
+      ],
+      "args": []
+    },
+    {
+      "name": "thawAccount",
+      "discriminator": [59, 120, 33, 244, 244, 215, 215, 148],
+      "accounts": [
+        { "name": "authority", "signer": true },
+        { "name": "globalState", "pda": { "seeds": [{ "kind": "const", "value": [115, 115, 115] }, { "kind": "account", "path": "mint" }] } },
+        { "name": "roleRegistry", "pda": { "seeds": [{ "kind": "const", "value": [114, 111, 108, 101, 115] }, { "kind": "account", "path": "mint" }] } },
+        { "name": "mint" },
+        { "name": "tokenAccount", "writable": true },
+        { "name": "tokenProgram" }
+      ],
+      "args": []
+    },
+    {
+      "name": "pause",
+      "discriminator": [211, 22, 221, 251, 74, 121, 193, 47],
+      "accounts": [
+        { "name": "authority", "signer": true },
+        { "name": "globalState", "writable": true, "pda": { "seeds": [{ "kind": "const", "value": [115, 115, 115] }, { "kind": "account", "path": "mint" }] } },
+        { "name": "roleRegistry", "pda": { "seeds": [{ "kind": "const", "value": [114, 111, 108, 101, 115] }, { "kind": "account", "path": "mint" }] } },
+        { "name": "mint" }
+      ],
+      "args": []
+    },
+    {
+      "name": "unpause",
+      "discriminator": [169, 144, 4, 38, 10, 141, 188, 255],
+      "accounts": [
+        { "name": "authority", "signer": true },
+        { "name": "globalState", "writable": true, "pda": { "seeds": [{ "kind": "const", "value": [115, 115, 115] }, { "kind": "account", "path": "mint" }] } },
+        { "name": "roleRegistry", "pda": { "seeds": [{ "kind": "const", "value": [114, 111, 108, 101, 115] }, { "kind": "account", "path": "mint" }] } },
+        { "name": "mint" }
+      ],
+      "args": []
+    },
+    {
+      "name": "updateMinter",
+      "discriminator": [90, 147, 74, 215, 83, 119, 167, 8],
+      "accounts": [
+        { "name": "masterAuthority", "signer": true },
+        { "name": "payer", "writable": true, "signer": true },
+        { "name": "globalState", "pda": { "seeds": [{ "kind": "const", "value": [115, 115, 115] }, { "kind": "account", "path": "mint" }] } },
+        { "name": "minter" },
+        { "name": "minterState", "writable": true, "pda": { "seeds": [{ "kind": "const", "value": [109, 105, 110, 116, 101, 114] }, { "kind": "account", "path": "mint" }, { "kind": "account", "path": "minter" }] } },
+        { "name": "mint" },
+        { "name": "systemProgram" }
+      ],
+      "args": [{ "name": "maxQuota", "type": "u64" }, { "name": "epochDuration", "type": { "option": "i64" } }]
+    },
+    {
+      "name": "updateRoles",
+      "discriminator": [184, 53, 238, 120, 161, 22, 198, 45],
+      "accounts": [
+        { "name": "masterAuthority", "signer": true },
+        { "name": "globalState", "pda": { "seeds": [{ "kind": "const", "value": [115, 115, 115] }, { "kind": "account", "path": "mint" }] } },
+        { "name": "roleRegistry", "writable": true, "pda": { "seeds": [{ "kind": "const", "value": [114, 111, 108, 101, 115] }, { "kind": "account", "path": "mint" }] } },
+        { "name": "mint" }
+      ],
+      "args": [
+        { "name": "pauser", "type": { "option": "pubkey" } },
+        { "name": "burner", "type": { "option": "pubkey" } },
+        { "name": "blacklister", "type": { "option": "pubkey" } },
+        { "name": "seizer", "type": { "option": "pubkey" } }
+      ]
+    },
+    {
+      "name": "proposeAuthorityTransfer",
+      "discriminator": [77, 210, 91, 7, 122, 164, 200, 133],
+      "accounts": [
+        { "name": "masterAuthority", "signer": true },
+        { "name": "globalState", "writable": true, "pda": { "seeds": [{ "kind": "const", "value": [115, 115, 115] }, { "kind": "account", "path": "mint" }] } },
+        { "name": "mint" }
+      ],
+      "args": [{ "name": "newAuthority", "type": "pubkey" }]
+    },
+    {
+      "name": "acceptAuthorityTransfer",
+      "discriminator": [244, 45, 209, 67, 88, 11, 154, 201],
+      "accounts": [
+        { "name": "newAuthority", "signer": true },
+        { "name": "globalState", "writable": true, "pda": { "seeds": [{ "kind": "const", "value": [115, 115, 115] }, { "kind": "account", "path": "mint" }] } },
+        { "name": "mint" }
+      ],
+      "args": []
+    },
+    {
+      "name": "addToBlacklist",
+      "discriminator": [229, 168, 216, 8, 146, 255, 138, 12],
+      "accounts": [
+        { "name": "blacklister", "signer": true },
+        { "name": "payer", "writable": true, "signer": true },
+        { "name": "globalState", "pda": { "seeds": [{ "kind": "const", "value": [115, 115, 115] }, { "kind": "account", "path": "mint" }] } },
+        { "name": "roleRegistry", "pda": { "seeds": [{ "kind": "const", "value": [114, 111, 108, 101, 115] }, { "kind": "account", "path": "mint" }] } },
+        { "name": "blacklistEntry", "writable": true, "pda": { "seeds": [{ "kind": "const", "value": [98, 108, 97, 99, 107, 108, 105, 115, 116] }, { "kind": "account", "path": "mint" }, { "kind": "arg", "path": "address" }] } },
+        { "name": "mint" },
+        { "name": "systemProgram" }
+      ],
+      "args": [{ "name": "address", "type": "pubkey" }, { "name": "reason", "type": "string" }]
+    },
+    {
+      "name": "removeFromBlacklist",
+      "discriminator": [9, 68, 91, 247, 180, 178, 161, 123],
+      "accounts": [
+        { "name": "blacklister", "signer": true },
+        { "name": "payer", "writable": true, "signer": true },
+        { "name": "globalState", "pda": { "seeds": [{ "kind": "const", "value": [115, 115, 115] }, { "kind": "account", "path": "mint" }] } },
+        { "name": "roleRegistry", "pda": { "seeds": [{ "kind": "const", "value": [114, 111, 108, 101, 115] }, { "kind": "account", "path": "mint" }] } },
+        { "name": "blacklistEntry", "writable": true, "pda": { "seeds": [{ "kind": "const", "value": [98, 108, 97, 99, 107, 108, 105, 115, 116] }, { "kind": "account", "path": "mint" }, { "kind": "arg", "path": "address" }] } },
+        { "name": "mint" }
+      ],
+      "args": [{ "name": "address", "type": "pubkey" }]
+    },
+    {
+      "name": "seize",
+      "discriminator": [4, 91, 0, 175, 11, 164, 112, 49],
+      "accounts": [
+        { "name": "seizer", "signer": true },
+        { "name": "globalState", "pda": { "seeds": [{ "kind": "const", "value": [115, 115, 115] }, { "kind": "account", "path": "mint" }] } },
+        { "name": "roleRegistry", "pda": { "seeds": [{ "kind": "const", "value": [114, 111, 108, 101, 115] }, { "kind": "account", "path": "mint" }] } },
+        { "name": "mint", "writable": true },
+        { "name": "sourceTokenAccount", "writable": true },
+        { "name": "destinationTokenAccount", "writable": true },
+        { "name": "tokenProgram" }
+      ],
+      "args": [{ "name": "amount", "type": "u64" }]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "GlobalState",
+      "discriminator": [219, 144, 206, 116, 101, 168, 196, 163]
+    },
+    {
+      "name": "RoleRegistry",
+      "discriminator": [200, 100, 50, 25, 12, 6, 3, 1]
+    },
+    {
+      "name": "MinterState",
+      "discriminator": [55, 44, 33, 22, 11, 5, 3, 1]
+    },
+    {
+      "name": "BlacklistEntry",
+      "discriminator": [11, 22, 33, 44, 55, 66, 77, 88]
+    }
+  ],
+  "types": [
+    {
+      "name": "InitializeParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          { "name": "name", "type": "string" },
+          { "name": "symbol", "type": "string" },
+          { "name": "uri", "type": "string" },
+          { "name": "decimals", "type": "u8" },
+          { "name": "enablePermanentDelegate", "type": "bool" },
+          { "name": "enableTransferHook", "type": "bool" },
+          { "name": "defaultAccountFrozen", "type": "bool" },
+          { "name": "transferHookProgramId", "type": { "option": "pubkey" } }
+        ]
+      }
+    },
+    {
+      "name": "GlobalState",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          { "name": "masterAuthority", "type": "pubkey" },
+          { "name": "mint", "type": "pubkey" },
+          { "name": "name", "type": "string" },
+          { "name": "symbol", "type": "string" },
+          { "name": "uri", "type": "string" },
+          { "name": "decimals", "type": "u8" },
+          { "name": "enablePermanentDelegate", "type": "bool" },
+          { "name": "enableTransferHook", "type": "bool" },
+          { "name": "defaultAccountFrozen", "type": "bool" },
+          { "name": "isPaused", "type": "bool" },
+          { "name": "pendingAuthority", "type": { "option": "pubkey" } },
+          { "name": "bump", "type": "u8" }
+        ]
+      }
+    },
+    {
+      "name": "RoleRegistry",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          { "name": "mint", "type": "pubkey" },
+          { "name": "pauser", "type": { "option": "pubkey" } },
+          { "name": "burner", "type": { "option": "pubkey" } },
+          { "name": "blacklister", "type": { "option": "pubkey" } },
+          { "name": "seizer", "type": { "option": "pubkey" } },
+          { "name": "bump", "type": "u8" }
+        ]
+      }
+    },
+    {
+      "name": "MinterState",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          { "name": "mint", "type": "pubkey" },
+          { "name": "minter", "type": "pubkey" },
+          { "name": "maxQuota", "type": "u64" },
+          { "name": "mintedThisEpoch", "type": "u64" },
+          { "name": "epochStart", "type": "i64" },
+          { "name": "epochDuration", "type": "i64" },
+          { "name": "bump", "type": "u8" }
+        ]
+      }
+    },
+    {
+      "name": "BlacklistEntry",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          { "name": "mint", "type": "pubkey" },
+          { "name": "address", "type": "pubkey" },
+          { "name": "reason", "type": "string" },
+          { "name": "timestamp", "type": "i64" },
+          { "name": "by", "type": "pubkey" },
+          { "name": "bump", "type": "u8" }
+        ]
+      }
+    }
+  ],
+  "events": [
+    { "name": "StablecoinInitialized", "discriminator": [1, 2, 3, 4, 5, 6, 7, 8] },
+    { "name": "Minted", "discriminator": [9, 10, 11, 12, 13, 14, 15, 16] },
+    { "name": "Burned", "discriminator": [17, 18, 19, 20, 21, 22, 23, 24] },
+    { "name": "Paused", "discriminator": [25, 26, 27, 28, 29, 30, 31, 32] },
+    { "name": "Unpaused", "discriminator": [33, 34, 35, 36, 37, 38, 39, 40] },
+    { "name": "Blacklisted", "discriminator": [41, 42, 43, 44, 45, 46, 47, 48] },
+    { "name": "RemovedFromBlacklist", "discriminator": [49, 50, 51, 52, 53, 54, 55, 56] },
+    { "name": "Seized", "discriminator": [57, 58, 59, 60, 61, 62, 63, 64] }
+  ],
+  "errors": [
+    { "code": 6000, "name": "Unauthorized", "msg": "Caller does not hold the required role" },
+    { "code": 6001, "name": "Paused", "msg": "Token is currently paused" },
+    { "code": 6002, "name": "QuotaExceeded", "msg": "Minter quota exceeded for this epoch" },
+    { "code": 6003, "name": "FeatureNotEnabled", "msg": "This feature was not enabled at mint creation" },
+    { "code": 6004, "name": "StringTooLong", "msg": "String exceeds maximum allowed length" },
+    { "code": 6005, "name": "AlreadyBlacklisted", "msg": "Address is already blacklisted" },
+    { "code": 6006, "name": "NotBlacklisted", "msg": "Address is not on the blacklist" },
+    { "code": 6007, "name": "Overflow", "msg": "Arithmetic overflow" },
+    { "code": 6008, "name": "PendingTransfer", "msg": "Pending authority transfer already in progress" },
+    { "code": 6009, "name": "NoPendingTransfer", "msg": "No pending authority transfer" },
+    { "code": 6010, "name": "WrongPendingAuthority", "msg": "Caller is not the pending new authority" }
+  ]
+}

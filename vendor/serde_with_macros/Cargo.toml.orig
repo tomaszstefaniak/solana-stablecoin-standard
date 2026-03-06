@@ -1,0 +1,63 @@
+[package]
+authors = ["Jonas Bushart"]
+name = "serde_with_macros"
+rust-version = "1.60"
+version = "2.3.3"
+
+categories = ["encoding"]
+description = "proc-macro library for serde_with"
+documentation = "https://docs.rs/serde_with_macros/"
+edition = "2021"
+keywords = ["serde", "utilities", "serialization", "deserialization"]
+license = "MIT OR Apache-2.0"
+readme = "README.md"
+repository = "https://github.com/jonasbb/serde_with/"
+
+include = [
+    "src/**/*",
+    "tests/**/*",
+    # These tests are a bit more volatile as future compiler upgrade might break them
+    "!tests/compile-fail/**",
+    "LICENSE-*",
+    "README.md",
+    "CHANGELOG.md",
+]
+
+[lib]
+proc-macro = true
+
+[badges]
+maintenance = {status = "actively-developed"}
+
+[dependencies]
+darling = "0.20.0"
+proc-macro2 = "1.0.1"
+quote = "1.0.0"
+
+[dependencies.syn]
+features = [
+    # "extra-traits", # Only for debugging
+    "full",
+    "parsing",
+]
+version = "2.0.0"
+
+[dev-dependencies]
+expect-test = "1.4.0"
+pretty_assertions = "1.0.0"
+rustversion = "1.0.0"
+serde = {version = "1.0.157", features = ["derive"]}
+serde_json = "1.0.25"
+trybuild = "1.0.80"
+version-sync = "0.9.1"
+
+[package.metadata.docs.rs]
+all-features = true
+
+[package.metadata.release]
+pre-release-replacements = [
+    {file = "CHANGELOG.md", search = "\\[Unreleased\\]", replace = "[Unreleased]\n\n## [{{version}}] - {{date}}"},
+    {file = "src/lib.rs", search = "https://docs\\.rs/serde_with/[\\d.]+/", replace = "https://docs.rs/serde_with/{{version}}/"},
+    {file = "src/lib.rs", search = "https://docs\\.rs/serde_with_macros/[\\d.]+/", replace = "https://docs.rs/serde_with_macros/{{version}}/"},
+]
+tag = false
